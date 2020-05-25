@@ -1,0 +1,2 @@
+rootProject.name='QRTest'
+include ':app'
