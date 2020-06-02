@@ -9,6 +9,7 @@ import com.google.zxing.integration.android.IntentIntegrator
 
 class ScanQR : AppCompatActivity() {
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_scan_q_r)
@@ -23,15 +24,22 @@ class ScanQR : AppCompatActivity() {
 
     }
 
+    override fun onBackPressed() {
+        super.onBackPressed()
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         val result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
         if (result != null) {
             if (result.contents == null) {
                 Toast.makeText(this, "Cancelled", Toast.LENGTH_LONG).show()
+                onBackPressed()
             } else {
                 Toast.makeText(this, "Scanned: " + result.contents, Toast.LENGTH_LONG).show()
                 intent = Intent(Intent.ACTION_VIEW, Uri.parse(result.contents));
-                startActivity(intent)
+                if(intent.resolveActivity(packageManager) != null) {
+                    startActivity(intent)
+                }
 
             }
         } else {
