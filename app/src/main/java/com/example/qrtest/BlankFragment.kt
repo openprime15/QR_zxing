@@ -1,15 +1,11 @@
 package com.example.qrtest
 
-import android.app.AlertDialog
 import android.content.Intent
-import android.content.pm.PackageManager
-import android.content.pm.ResolveInfo
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.google.zxing.integration.android.IntentIntegrator
@@ -58,14 +54,6 @@ class BlankFragment : Fragment() {
         return view
     }
 
-    fun scanFromFragment() {
-        val qrScan = IntentIntegrator.forSupportFragment(this)
-        qrScan.setOrientationLocked(false) //default값은 세로모드인데 가로로 옮기면 가로로 되게 변경
-        qrScan.setPrompt("QR코드")
-        qrScan.setBeepEnabled(false)
-        qrScan.initiateScan()
-    }
-
     private fun displayToast() {
         if (activity != null && toast != null) {
             Toast.makeText(activity, toast, Toast.LENGTH_LONG).show()
@@ -88,10 +76,8 @@ class BlankFragment : Fragment() {
                 "Scanned from fragment: " + result.contents
             }
 
-            // At this point we may or may not have a reference to the activity
             displayToast()
             val intent = Intent(Intent.ACTION_VIEW, Uri.parse(result.contents));
-//            val webIntent: Intent = Uri.parse(result.contents).let { webpage ->Intent(Intent.ACTION_VIEW, webpage) }
             if(intent.resolveActivity(activity!!.packageManager) != null){
                 startActivity(intent)
             }
